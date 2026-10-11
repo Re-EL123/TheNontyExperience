@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff9fa">
+  <meta name="description" content="Discover The Nonty Experience: natural makeup, soft glam, full-face makeup, eyebrows and lashes. Enquire about your desired look.">
+  <meta name="robots" content="index,follow">
+  <title>The Nonty Experience | Makeup &amp; Beauty</title>
+
+  <!-- Replace YOUR-DOMAIN.co.za with the final website address before launch. -->
+  <link rel="canonical" href="https://YOUR-DOMAIN.co.za/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Nonty Experience | Makeup &amp; Beauty">
+  <meta property="og:description" content="Beauty is personal. Discover makeup looks that celebrate your individuality.">
+  <meta property="og:url" content="https://YOUR-DOMAIN.co.za/">
+  <meta property="og:image" content="https://YOUR-DOMAIN.co.za/assets/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --rose: #c995a8;
+      --rose-dark: #95677b;
+      --pink-soft: #f8e8ed;
+      --background: #fff9fa;
+      --ink: #171316;
+      --brown: #754a45;
+      --muted: #756b70;
+      --white: #fff;
+      --border: #e8dde1;
+      --container: 1200px;
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --pill: 999px;
+      --shadow: 0 16px 44px rgba(23, 19, 22, .09);
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 95px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--background);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.menu-open, body.modal-open { overflow: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid var(--rose-dark); outline-offset: 4px; }
+    ::selection { color: var(--ink); background: #f0ccd8; }
+
+    .container { width: min(var(--container), calc(100% - 48px)); margin-inline: auto; }
+    .section { padding: 104px 0; }
+    .section--soft { background: var(--pink-soft); }
+    .section--white { background: var(--white); }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin: 0 0 16px; color: var(--rose-dark);
+      font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 27px; height: 1px; background: currentColor; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.04; }
+    h1 { font-size: clamp(3.25rem, 7vw, 6.5rem); letter-spacing: -.045em; margin-bottom: 22px; }
+    h2 { font-size: clamp(2.65rem, 5vw, 4.4rem); letter-spacing: -.035em; margin-bottom: 18px; }
+    h3 { font-size: clamp(1.65rem, 2.4vw, 2.15rem); margin-bottom: 10px; }
+    .lead { max-width: 600px; color: var(--muted); font-size: 1.05rem; }
+    .section-heading { max-width: 720px; margin-bottom: 46px; }
+    .section-heading p { color: var(--muted); margin-bottom: 0; }
+    .center { text-align: center; margin-inline: auto; }
+    .center .eyebrow { justify-content: center; }
+    .center .eyebrow::after { content: ""; width: 27px; height: 1px; background: currentColor; }
+
+    .announcement {
+      min-height: 34px; display: flex; align-items: center; justify-content: center;
+      padding: 7px 16px; background: var(--ink); color: var(--white);
+      font-size: .68rem; letter-spacing: .15em; text-align: center; text-transform: uppercase;
+    }
+    .site-header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255, 249, 250, .95);
+      border-bottom: 1px solid transparent;
+      transition: box-shadow .25s ease, border-color .25s ease, background .25s ease;
+      backdrop-filter: blur(16px);
+    }
+    .site-header.scrolled { border-color: var(--border); box-shadow: 0 8px 24px rgba(23,19,22,.06); }
+    .nav { min-height: 86px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; flex-shrink: 0; }
+    .brand img { width: auto; height: 58px; max-width: 210px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: clamp(18px, 2.5vw, 34px); margin-left: auto; }
+    .nav-links a { color: #443b40; font-size: .86rem; font-weight: 600; transition: color .2s ease; }
+    .nav-links a:hover, .nav-links a[aria-current="location"] { color: var(--rose-dark); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .menu-toggle {
+      display: none; width: 44px; height: 44px; place-items: center;
+      border: 1px solid var(--border); border-radius: 50%; background: transparent; cursor: pointer;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 50px; padding: 13px 23px; border: 1px solid transparent;
+      border-radius: var(--pill); font-size: .79rem; font-weight: 700;
+      letter-spacing: .055em; text-align: center; text-transform: uppercase;
+      cursor: pointer; transition: transform .22s var(--ease), background .22s ease, color .22s ease, border-color .22s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--primary { color: var(--white); background: var(--ink); }
+    .btn--primary:hover { background: var(--rose-dark); }
+    .btn--rose { color: var(--ink); background: var(--rose); }
+    .btn--rose:hover { background: #d7a9b9; }
+    .btn--outline { color: var(--ink); border-color: var(--border); background: transparent; }
+    .btn--outline:hover { border-color: var(--rose-dark); background: var(--white); }
+    .btn--light { color: var(--ink); background: var(--white); }
+    .btn--light:hover { background: var(--pink-soft); }
+    .btn svg { width: 17px; height: 17px; }
+
+    .hero { position: relative; overflow: hidden; padding: 58px 0 76px; }
+    .hero::before {
+      content: ""; position: absolute; width: 480px; height: 480px; border-radius: 50%;
+      right: -210px; top: -220px; background: var(--pink-soft); z-index: -1;
+    }
+    .hero-grid { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: clamp(36px, 6vw, 88px); }
+    .hero-copy { padding: 28px 0; }
+    .hero h1 em { color: var(--rose-dark); font-weight: 500; }
+    .hero-copy .lead { margin-bottom: 28px; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; }
+    .hero-note { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: .82rem; }
+    .hero-note svg { color: var(--rose-dark); width: 17px; height: 17px; flex-shrink: 0; }
+    .hero-visual { position: relative; min-width: 0; }
+    .hero-image-frame {
+      position: relative; overflow: hidden; aspect-ratio: 4 / 4.7;
+      border-radius: 46% 46% 18px 18px; background: #ead6dd; box-shadow: var(--shadow);
+    }
+    .hero-image-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-sticker {
+      position: absolute; left: -30px; bottom: 38px; max-width: 215px;
+      padding: 18px 20px; border: 1px solid rgba(255,255,255,.75);
+      border-radius: var(--radius-md); background: rgba(255,249,250,.94);
+      box-shadow: var(--shadow); backdrop-filter: blur(10px);
+    }
+    .hero-sticker strong { display: block; font-family: var(--serif); font-size: 1.55rem; line-height: 1.05; }
+    .hero-sticker span { display: block; margin-top: 6px; color: var(--muted); font-size: .72rem; }
+    .hero-sparkle { position: absolute; right: -17px; top: 17%; color: var(--rose-dark); }
+    .hero-sparkle svg { width: 31px; height: 31px; stroke-width: 1.3; }
+
+    .values-strip { border-block: 1px solid var(--border); background: var(--white); }
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .value-item { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 23px 14px; text-align: center; }
+    .value-item + .value-item { border-left: 1px solid var(--border); }
+    .value-item svg { width: 19px; height: 19px; color: var(--rose-dark); flex-shrink: 0; }
+    .value-item span { font-size: .77rem; font-weight: 700; letter-spacing: .035em; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(42px, 8vw, 110px); align-items: center; }
+    .about-visual { position: relative; max-width: 500px; }
+    .about-visual img { width: 100%; aspect-ratio: 4 / 4.5; object-fit: cover; border-radius: 180px 180px 18px 18px; background: var(--pink-soft); }
+    .image-caption { position: absolute; right: -24px; bottom: 28px; padding: 16px 20px; max-width: 200px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: var(--shadow); }
+    .image-caption span { display: block; color: var(--rose-dark); font-size: .67rem; letter-spacing: .12em; text-transform: uppercase; }
+    .image-caption strong { display: block; font-family: var(--serif); font-size: 1.4rem; line-height: 1.15; }
+    .about-copy blockquote { margin: 28px 0; padding-left: 20px; border-left: 2px solid var(--rose); font-family: var(--serif); font-size: 1.65rem; line-height: 1.25; }
+    .about-copy .btn { margin-top: 10px; }
+
+    .services-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+    .service-card { overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--white); transition: transform .3s var(--ease), box-shadow .3s ease; }
+    .service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .service-photo { overflow: hidden; aspect-ratio: 4 / 3.5; background: var(--pink-soft); }
+    .service-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+    .service-card:hover .service-photo img { transform: scale(1.045); }
+    .service-content { padding: 22px; }
+    .service-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+    .service-top h3 { font-size: 1.7rem; }
+    .price { white-space: nowrap; color: var(--rose-dark); font-weight: 700; font-size: 1rem; }
+    .service-content p { min-height: 50px; margin: 0 0 18px; color: var(--muted); font-size: .88rem; }
+    .text-link { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .text-link svg { width: 16px; height: 16px; transition: transform .2s ease; }
+    .text-link:hover svg { transform: translateX(4px); }
+    .service-note { margin: 24px 0 0; color: var(--muted); font-size: .82rem; }
+
+    .feature { padding: 0; background: var(--ink); color: var(--white); }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 540px; }
+    .feature-image { min-height: 420px; background: #3a2c32; }
+    .feature-image img { width: 100%; height: 100%; object-fit: cover; }
+    .feature-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(38px, 7vw, 92px); }
+    .feature-copy .eyebrow { color: #e3b5c5; }
+    .feature-copy h2 { max-width: 530px; }
+    .feature-copy p { max-width: 490px; color: #d8cdd1; }
+    .feature-price { display: flex; align-items: baseline; gap: 12px; margin: 8px 0 26px; }
+    .feature-price strong { font-family: var(--serif); font-size: 3.4rem; line-height: 1; }
+    .feature-price del { color: #c4b6bc; font-size: 1rem; }
+    .feature-price small { color: #e3b5c5; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: 240px; gap: 16px; }
+    .portfolio-card { position: relative; overflow: hidden; padding: 0; border: 0; border-radius: var(--radius-md); background: var(--pink-soft); cursor: zoom-in; text-align: left; }
+    .portfolio-card:first-child { grid-row: span 2; }
+    .portfolio-card:nth-child(4) { grid-column: span 2; }
+    .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+    .portfolio-card:hover img { transform: scale(1.045); }
+    .portfolio-card::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(23,19,22,.65)); opacity: .8; pointer-events: none; }
+    .portfolio-label { position: absolute; z-index: 1; bottom: 17px; left: 18px; color: white; font-size: .78rem; font-weight: 600; letter-spacing: .04em; }
+    .portfolio-help { margin: 22px 0 0; color: var(--muted); font-size: .82rem; text-align: center; }
+
+    .journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .journey-card { padding: 28px; border: 1px solid var(--border); border-radius: var(--radius-md); background: rgba(255,255,255,.72); }
+    .journey-number { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-bottom: 22px; border: 1px solid var(--rose); border-radius: 50%; color: var(--rose-dark); font-family: var(--serif); font-size: 1.45rem; }
+    .journey-card p { margin-bottom: 0; color: var(--muted); font-size: .92rem; }
+
+    .philosophy { position: relative; overflow: hidden; background: var(--rose-dark); color: var(--white); text-align: center; }
+    .philosophy::before, .philosophy::after { content: "✳"; position: absolute; color: rgba(255,255,255,.12); font-size: 10rem; line-height: 1; }
+    .philosophy::before { left: 5%; top: 8%; }
+    .philosophy::after { right: 5%; bottom: 5%; }
+    .philosophy .eyebrow { color: #f7dce5; }
+    .philosophy h2 { max-width: 850px; margin-inline: auto; }
+    .philosophy p { max-width: 760px; margin: 0 auto 22px; color: #f9eaf0; }
+    .philosophy .btn { margin-top: 12px; }
+
+    .faq-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; }
+    .faq-intro p { color: var(--muted); }
+    .faq-list { border-top: 1px solid var(--border); }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; padding: 22px 0; border: 0; background: transparent; cursor: pointer; text-align: left; font-weight: 600; }
+    .faq-question svg { width: 19px; height: 19px; flex-shrink: 0; transition: transform .25s ease; }
+    .faq-question[aria-expanded="true"] svg { transform: rotate(45deg); }
+    .faq-answer { padding: 0 32px 22px 0; color: var(--muted); font-size: .93rem; }
+    .faq-answer p { margin: 0; }
+
+    .contact-panel { display: grid; grid-template-columns: .9fr 1.1fr; overflow: hidden; border-radius: var(--radius-lg); background: var(--white); box-shadow: var(--shadow); }
+    .contact-info { padding: clamp(30px, 5vw, 58px); background: var(--pink-soft); }
+    .contact-info h2 { font-size: clamp(2.5rem, 4vw, 3.8rem); }
+    .contact-info > p { color: var(--muted); }
+    .contact-methods { display: grid; gap: 12px; margin: 30px 0; }
+    .contact-method { display: flex; align-items: center; gap: 13px; padding: 14px; border: 1px solid rgba(149,103,123,.2); border-radius: var(--radius-sm); background: rgba(255,255,255,.65); }
+    .contact-method > span:first-child { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--white); color: var(--rose-dark); }
+    .contact-method svg { width: 19px; height: 19px; }
+    .contact-method small { display: block; color: var(--muted); font-size: .72rem; }
+    .contact-method strong { display: block; overflow-wrap: anywhere; font-size: .9rem; }
+    .contact-form-wrap { padding: clamp(30px, 5vw, 58px); }
+    .contact-form-wrap h3 { margin-bottom: 8px; }
+    .form-intro { margin-bottom: 25px; color: var(--muted); font-size: .9rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+    .field { display: grid; gap: 7px; }
+    .field--full { grid-column: 1 / -1; }
+    .field label { font-size: .78rem; font-weight: 700; }
+    .field input, .field select, .field textarea {
+      width: 100%; min-height: 48px; padding: 12px 13px;
+      border: 1px solid var(--border); border-radius: 9px; color: var(--ink);
+      background: #fffdfd; outline-offset: 2px;
+    }
+    .field textarea { min-height: 105px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: #978b91; }
+    .form-submit { width: 100%; margin-top: 20px; }
+    .form-note { margin: 12px 0 0; color: var(--muted); font-size: .75rem; }
+    .form-error { min-height: 1.2em; margin: 8px 0 0; color: #a32636; font-size: .83rem; }
+
+    .footer { padding: 58px 0 24px; color: #f8edf1; background: var(--ink); }
+    .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr 1fr 1fr; gap: 36px; padding-bottom: 42px; }
+    .footer-brand img { width: auto; height: 55px; max-width: 190px; padding: 5px; border-radius: 8px; background: white; }
+    .footer-brand p { max-width: 270px; margin: 17px 0 0; color: #c9bdc2; font-size: .87rem; }
+    .footer h3 { margin: 0 0 17px; font-family: var(--sans); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .footer-links { display: grid; gap: 10px; }
+    .footer-links a, .footer-links span { color: #c9bdc2; font-size: .85rem; overflow-wrap: anywhere; }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid #40363c; color: #b9abb2; font-size: .75rem; }
+    .footer-bottom a { text-decoration: underline; text-underline-offset: 3px; }
+
+    .whatsapp-float {
+      position: fixed; right: 22px; bottom: 22px; z-index: 900;
+      display: inline-flex; align-items: center; gap: 10px; padding: 13px 18px;
+      border-radius: var(--pill); background: #236b4c; color: white;
+      box-shadow: 0 8px 28px rgba(18,70,47,.25); font-size: .82rem; font-weight: 700;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .whatsapp-float:hover { transform: translateY(-3px); background: #18583d; }
+    .whatsapp-float svg { width: 19px; height: 19px; }
+
+    .lightbox { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 24px; background: rgba(15,10,13,.92); }
+    .lightbox[hidden] { display: none; }
+    .lightbox-inner { position: relative; width: min(100%, 900px); max-height: 90vh; display: grid; place-items: center; }
+    .lightbox img { max-width: 100%; max-height: 78vh; width: auto; height: auto; object-fit: contain; border-radius: 10px; }
+    .lightbox-caption { margin-top: 12px; color: white; text-align: center; }
+    .lightbox-close { position: absolute; top: -18px; right: -8px; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: rgba(0,0,0,.4); color: white; cursor: pointer; }
+    .lightbox-close svg { width: 21px; height: 21px; }
+
+    [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 80ms; }
+    .delay-2 { transition-delay: 160ms; }
+    .delay-3 { transition-delay: 240ms; }
+    .hero-copy > * { animation: rise-in .75s var(--ease) both; }
+    .hero-copy > *:nth-child(1) { animation-delay: .08s; }
+    .hero-copy > *:nth-child(2) { animation-delay: .16s; }
+    .hero-copy > *:nth-child(3) { animation-delay: .25s; }
+    .hero-copy > *:nth-child(4) { animation-delay: .34s; }
+    .hero-copy > *:nth-child(5) { animation-delay: .42s; }
+    .hero-visual { animation: image-in 1s var(--ease) both; }
+    @keyframes rise-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes image-in { from { opacity: 0; transform: translateY(15px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    @media (max-width: 1020px) {
+      .nav { gap: 16px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: .8rem; }
+      .nav-actions .btn { padding-inline: 16px; }
+      .hero-grid { gap: 42px; }
+      .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-content p { min-height: 0; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .faq-layout { gap: 40px; }
+    }
+    @media (max-width: 760px) {
+      html { scroll-padding-top: 78px; }
+      .container { width: min(var(--container), calc(100% - 34px)); }
+      .section { padding: 74px 0; }
+      .announcement { font-size: .61rem; }
+      .nav { min-height: 72px; }
+      .brand img { height: 49px; max-width: 170px; }
+      .menu-toggle { display: grid; }
+      .nav-actions > .btn { display: none; }
+      .nav-links {
+        position: fixed; top: 72px; left: 0; right: 0; bottom: 0; z-index: 999;
+        display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
+        gap: 0; margin: 0; padding: 22px 24px 34px; overflow-y: auto;
+        background: var(--background); opacity: 0; visibility: hidden; transform: translateY(-8px);
+        transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+      }
+      .nav-links.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+      .nav-links a { padding: 16px 2px; border-bottom: 1px solid var(--border); font-family: var(--serif); font-size: 1.8rem; font-weight: 600; }
+      .nav-links .mobile-book { display: inline-flex; justify-content: center; margin-top: 22px; padding: 15px 20px; border: 0; border-radius: var(--pill); background: var(--ink); color: white; font-family: var(--sans); font-size: .8rem; }
+      .hero { padding: 35px 0 55px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-copy { padding: 10px 0 0; }
+      h1 { font-size: clamp(3.1rem, 14vw, 5rem); }
+      .hero-copy .lead { font-size: .98rem; }
+      .hero-image-frame { max-width: 520px; margin-inline: auto; aspect-ratio: 4 / 4.2; border-radius: 42% 42% 16px 16px; }
+      .hero-sticker { left: 8px; bottom: 18px; max-width: 190px; padding: 14px 16px; }
+      .hero-sparkle { right: 5px; top: 10%; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+      .value-item { padding: 17px 8px; }
+      .value-item:nth-child(3) { border-left: 0; }
+      .value-item:nth-child(n+3) { border-top: 1px solid var(--border); }
+      .value-item span { font-size: .72rem; }
+      .about-grid, .feature-grid, .faq-layout, .contact-panel { grid-template-columns: 1fr; }
+      .about-grid { gap: 44px; }
+      .about-visual { max-width: 460px; margin-inline: auto; }
+      .image-caption { right: 8px; }
+      .feature-image { min-height: 350px; max-height: 540px; }
+      .feature-copy { padding: 46px 25px 54px; }
+      .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 190px; gap: 10px; }
+      .portfolio-card:first-child { grid-row: span 2; }
+      .portfolio-card:nth-child(4) { grid-column: auto; }
+      .journey-grid { grid-template-columns: 1fr; }
+      .journey-card { padding: 24px; }
+      .philosophy::before { left: -45px; top: 0; font-size: 7rem; }
+      .philosophy::after { right: -35px; bottom: 0; font-size: 7rem; }
+      .faq-layout { gap: 25px; }
+      .contact-info, .contact-form-wrap { padding: 30px 23px; }
+      .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 22px; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+      .whatsapp-float { right: 13px; bottom: 13px; width: 52px; height: 52px; justify-content: center; padding: 0; }
+      .whatsapp-float span { display: none; }
+      .whatsapp-float svg { width: 23px; height: 23px; }
+    }
+    @media (max-width: 430px) {
+      .hero-buttons { display: grid; grid-template-columns: 1fr; }
+      .hero-buttons .btn { width: 100%; }
+      .services-grid { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-auto-rows: 160px; }
+      .service-top { gap: 8px; }
+      .service-top h3 { font-size: 1.55rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field--full { grid-column: auto; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-sticker { max-width: 175px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      [data-reveal] { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BeautySalon",
+    "name": "The Nonty Experience",
+    "email": "nonty@re-el.co.za",
+    "telephone": "+27813864024",
+    "description": "Makeup and beauty services including natural makeup, soft glam, full-face makeup, eyebrows and eyelashes.",
+    "image": "https://YOUR-DOMAIN.co.za/assets/logo.png"
+  }
+  </script>
+</head>
+<body>
+  <div class="announcement">The Nonty Experience <span aria-hidden="true">&nbsp;·&nbsp;</span> Get glammed for your next gig</div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="The Nonty Experience home">
+        <img src="assets/logo.png" alt="The Nonty Experience logo" width="190" height="58">
+      </a>
+
+      <nav class="nav-links" id="primaryNav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">Our Story</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#faq">FAQs</a>
+        <a href="#contact" class="mobile-book">Book your look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn--primary" href="#contact">Book your look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation menu" aria-controls="primaryNav" aria-expanded="false">
+          <i data-lucide="menu" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">The art of beauty</p>
+          <h1>Every face has a story. <em>Let yours shine.</em></h1>
+          <p class="lead">From natural beauty to full-glam transformations, The Nonty Experience celebrates your individuality through makeup that enhances your features and expresses your unique beauty.</p>
+          <div class="hero-buttons">
+            <a class="btn btn--primary" href="#contact">Book your look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            <a class="btn btn--outline" href="#portfolio">Explore the portfolio <i data-lucide="arrow-down-right" aria-hidden="true"></i></a>
+          </div>
+          <div class="hero-note"><i data-lucide="sparkles" aria-hidden="true"></i><span>Natural beauty · Soft glam · Full face beat</span></div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-image-frame">
+            <!-- Replace this placeholder image with a real, approved makeup portrait. -->
+            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1200&q=85" alt="Editorial beauty portrait representing makeup artistry" fetchpriority="high" width="900" height="1050">
+          </div>
+          <div class="hero-sticker"><strong>Your look. Your moment.</strong><span>Beauty that celebrates your individuality.</span></div>
+          <div class="hero-sparkle" aria-hidden="true"><i data-lucide="sparkles"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="values-strip" aria-label="Brand values">
+      <div class="container values-grid">
+        <div class="value-item"><i data-lucide="flower-2" aria-hidden="true"></i><span>Natural Enhancement</span></div>
+        <div class="value-item"><i data-lucide="sparkles" aria-hidden="true"></i><span>Individual Expression</span></div>
+        <div class="value-item"><i data-lucide="palette" aria-hidden="true"></i><span>Artistic Makeup</span></div>
+        <div class="value-item"><i data-lucide="heart" aria-hidden="true"></i><span>Personal Glamour</span></div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="about">
+      <div class="container about-grid">
+        <div class="about-visual" data-reveal>
+          <!-- Replace with an approved photo of Nonty or a makeup session. -->
+          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85" alt="Beauty products and makeup tools arranged for a makeup session" loading="lazy" width="800" height="900">
+          <div class="image-caption"><span>The Nonty philosophy</span><strong>Beauty, with intention.</strong></div>
+        </div>
+        <div class="about-copy" data-reveal>
+          <p class="eyebrow">Our story</p>
+          <h2>More than makeup. An expression of you.</h2>
+          <p class="lead">At The Nonty Experience, makeup is more than a beauty routine. It is a creative expression that celebrates individuality, enhances natural features, and gives every client the freedom to express their own sense of beauty.</p>
+          <p>Whether you prefer a natural finish, a soft-glam look, or a full-face transformation, the experience begins with understanding the look you want to achieve.</p>
+          <blockquote>“Makeup is a medium for creative artistic expression.”</blockquote>
+          <a class="btn btn--primary" href="#services">Explore our services <i data-lucide="arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="services">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="eyebrow">Find your look</p>
+          <h2>Beauty for every mood.</h2>
+          <p>Choose a look that feels like you. Enquire directly to confirm current pricing and availability.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card" data-reveal>
+            <div class="service-photo"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80" alt="Natural makeup inspiration" loading="lazy" width="700" height="620"></div>
+            <div class="service-content">
+              <div class="service-top"><h3>Natural Look</h3><span class="price">R99*</span></div>
+              <p>A fresh, understated finish that lets your natural features take centre stage.</p>
+              <a class="text-link service-enquiry" href="#contact" data-service="Natural Look">Enquire about this look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <div class="service-photo"><img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=80" alt="Makeup brushes and beauty products" loading="lazy" width="700" height="620"></div>
+            <div class="service-content">
+              <div class="service-top"><h3>Soft Glam</h3><span class="price">R119*</span></div>
+              <p>A polished look with soft definition for a little extra occasion-ready glamour.</p>
+              <a class="text-link service-enquiry" href="#contact" data-service="Soft Glam">Enquire about this look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <div class="service-photo"><img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=700&q=80" alt="Glamorous beauty portrait" loading="lazy" width="700" height="620"></div>
+            <div class="service-content">
+              <div class="service-top"><h3>Full Face Beat</h3><span class="price">R179*</span></div>
+              <p>A defined, statement-making makeup look for when you want to make an entrance.</p>
+              <a class="text-link service-enquiry" href="#contact" data-service="Full Face Beat">Enquire about this look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <div class="service-photo"><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=80" alt="Beauty portrait with defined brows" loading="lazy" width="700" height="620"></div>
+            <div class="service-content">
+              <div class="service-top"><h3>Eyebrows</h3><span class="price">R59*</span></div>
+              <p>Brows shaped and defined to complement your overall look.</p>
+              <a class="text-link service-enquiry" href="#contact" data-service="Eyebrows">Enquire about this service <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+          </article>
+
+          <article class="service-card" data-reveal>
+            <div class="service-photo"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=700&q=80" alt="Beauty portrait representing lash styling" loading="lazy" width="700" height="620"></div>
+            <div class="service-content">
+              <div class="service-top"><h3>Eyelashes</h3><span class="price">From R79*</span></div>
+              <p>Choose the lash option that suits your desired finish: strip lashes or the single option.</p>
+              <a class="text-link service-enquiry" href="#contact" data-service="Eyelashes">Enquire about this service <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+          </article>
+        </div>
+        <p class="service-note">*Prices are reproduced from the supplied brochure and must be confirmed before launch. The brochure lists eyelashes at R139 (single) or R79 (strip). Services and final prices are confirmed directly with the business.</p>
+      </div>
+    </section>
+
+    <section class="feature" id="featured">
+      <div class="feature-grid">
+        <div class="feature-image">
+          <img src="https://images.unsplash.com/photo-1534522329988-5f8f10b7d3d3?auto=format&fit=crop&w=1100&q=85" alt="Glamorous makeup portrait for a special occasion" loading="lazy" width="1000" height="900">
+        </div>
+        <div class="feature-copy" data-reveal>
+          <p class="eyebrow">Make a statement</p>
+          <h2>Your moment. Your glam.</h2>
+          <p>Bring your vision to life with a look that celebrates your features and expresses your personal style. Enquire about a Full Face Beat and confirm the details for your occasion.</p>
+          <div class="feature-price"><strong>R179</strong><del>R210</del><small>Brochure offer · confirm availability</small></div>
+          <a class="btn btn--light" href="#contact" data-service="Full Face Beat">Enquire about full glam <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--white" id="portfolio">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="eyebrow">The beauty gallery</p>
+          <h2>Beauty in every detail.</h2>
+          <p>A visual moodboard for your next look. Replace these illustrative images with approved photographs of The Nonty Experience's actual work before presenting this as a client portfolio.</p>
+        </div>
+        <div class="portfolio-grid">
+          <button class="portfolio-card" type="button" data-image="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=1500&q=90" data-caption="Beauty portrait" aria-label="View beauty portrait"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=80" alt="Beauty portrait inspiration" loading="lazy" width="700" height="900"><span class="portfolio-label">Natural beauty</span></button>
+          <button class="portfolio-card" type="button" data-image="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=1500&q=90" data-caption="Glamour inspiration" aria-label="View glamour inspiration"><img src="https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?auto=format&fit=crop&w=700&q=80" alt="Glamour portrait inspiration" loading="lazy" width="700" height="500"><span class="portfolio-label">Soft glam</span></button>
+          <button class="portfolio-card" type="button" data-image="https://images.unsplash.com/photo-1534522329988-5f8f10b7d3d3?auto=format&fit=crop&w=1500&q=90" data-caption="Full glam inspiration" aria-label="View full glam inspiration"><img src="https://images.unsplash.com/photo-1534522329988-5f8f10b7d3d3?auto=format&fit=crop&w=700&q=80" alt="Full glam portrait inspiration" loading="lazy" width="700" height="500"><span class="portfolio-label">Full glam</span></button>
+          <button class="portfolio-card" type="button" data-image="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1500&q=90" data-caption="Beauty preparation" aria-label="View beauty preparation"><img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80" alt="Makeup preparation and beauty tools" loading="lazy" width="900" height="500"><span class="portfolio-label">The artistry</span></button>
+        </div>
+        <p class="portfolio-help">Portfolio images are illustrative placeholders. Use client-approved work photographs for an accurate representation of services.</p>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="experience">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="eyebrow">Your experience</p>
+          <h2>Your glam journey, made simple.</h2>
+          <p>Three simple steps from the look you imagine to an enquiry with Nonty.</p>
+        </div>
+        <div class="journey-grid">
+          <article class="journey-card" data-reveal><span class="journey-number">01</span><h3>Share your vision</h3><p>Tell us about your occasion, preferred makeup style, and any reference looks you have in mind.</p></article>
+          <article class="journey-card delay-1" data-reveal><span class="journey-number">02</span><h3>Discuss the details</h3><p>Confirm the service, price, preferred date, availability, and any specific requirements directly with the business.</p></article>
+          <article class="journey-card delay-2" data-reveal><span class="journey-number">03</span><h3>Prepare for your moment</h3><p>Once the arrangements are confirmed, get ready for a look that reflects your personal style.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section philosophy" id="philosophy">
+      <div class="container" data-reveal>
+        <p class="eyebrow">The Nonty philosophy</p>
+        <h2>Beauty without a single definition.</h2>
+        <p>We believe beauty is personal. Makeup is a creative medium through which individuality can be expressed, natural features can be celebrated, and personal style can take centre stage. Every face is unique, and every look should leave room for that individuality.</p>
+        <a class="btn btn--light" href="#contact">Let's talk about your look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+      </div>
+    </section>
+
+    <section class="section section--white" id="faq">
+      <div class="container faq-layout">
+        <div class="faq-intro" data-reveal>
+          <p class="eyebrow">Good to know</p>
+          <h2>Questions, answered.</h2>
+          <p>Need more information? Contact Nonty directly and include your preferred service and date.</p>
+          <a class="text-link" href="mailto:nonty@re-el.co.za">Email your question <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="faq-list" data-reveal>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq1">What makeup services are available?<i data-lucide="plus" aria-hidden="true"></i></button>
+            <div class="faq-answer" id="faq1" hidden><p>The brochure lists Natural Look, Soft Glam, Full Face Beat, Eyebrows, and Eyelashes. Contact Nonty to confirm the current service menu.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq2">How do I enquire about a booking?<i data-lucide="plus" aria-hidden="true"></i></button>
+            <div class="faq-answer" id="faq2" hidden><p>Use the enquiry form on this page to prepare a WhatsApp message, call 0813864024, or email nonty@re-el.co.za.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq3">Are the prices on this website current?<i data-lucide="plus" aria-hidden="true"></i></button>
+            <div class="faq-answer" id="faq3" hidden><p>The displayed prices come from the supplied brochure. Please contact the business to confirm current pricing and service inclusions before booking.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq4">Can I request a specific makeup look?<i data-lucide="plus" aria-hidden="true"></i></button>
+            <div class="faq-answer" id="faq4" hidden><p>Include your preferred style and any reference details in your enquiry. Nonty can discuss the request and confirm what is possible.</p></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq5">Does submitting the form confirm my appointment?<i data-lucide="plus" aria-hidden="true"></i></button>
+            <div class="faq-answer" id="faq5" hidden><p>No. The form opens WhatsApp with a prepared message. Your enquiry is sent only when you choose to send it, and an appointment is not confirmed until the arrangements are agreed directly with the business.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="contact">
+      <div class="container">
+        <div class="section-heading center" data-reveal>
+          <p class="eyebrow">Let's make it happen</p>
+          <h2>Your next look starts here.</h2>
+          <p>Share a few details about the look you want. Your information will be prepared as a WhatsApp enquiry for you to review and send.</p>
+        </div>
+
+        <div class="contact-panel" data-reveal>
+          <div class="contact-info">
+            <p class="eyebrow">Get in touch</p>
+            <h2>Let's talk beauty.</h2>
+            <p>Have a question or a look in mind? Contact The Nonty Experience directly.</p>
+
+            <div class="contact-methods">
+              <a class="contact-method" href="tel:+27813864024">
+                <span><i data-lucide="phone" aria-hidden="true"></i></span>
+                <span><small>Call or contact</small><strong>0813864024</strong></span>
+              </a>
+              <a class="contact-method" href="mailto:nonty@re-el.co.za">
+                <span><i data-lucide="mail" aria-hidden="true"></i></span>
+                <span><small>Email</small><strong>nonty@re-el.co.za</strong></span>
+              </a>
+              <a class="contact-method" href="https://wa.me/27813864024?text=Hi%20Nonty%2C%20I%20would%20like%20to%20make%20a%20makeup%20enquiry." target="_blank" rel="noopener noreferrer">
+                <span><i data-lucide="message-circle" aria-hidden="true"></i></span>
+                <span><small>WhatsApp</small><strong>Send an enquiry</strong></span>
+              </a>
+            </div>
+            <p class="form-note">Please confirm service prices, availability, and appointment details directly with Nonty.</p>
+          </div>
+
+          <div class="contact-form-wrap">
+            <h3>Tell us about your look.</h3>
+            <p class="form-intro">Fields marked with * are required.</p>
+            <form id="bookingForm">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="fullName">Full name *</label>
+                  <input id="fullName" name="fullName" autocomplete="name" required maxlength="100" placeholder="Your name">
+                </div>
+                <div class="field">
+                  <label for="phone">Phone number *</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required maxlength="30" placeholder="Your contact number">
+                </div>
+                <div class="field field--full">
+                  <label for="email">Email address (optional)</label>
+                  <input id="email" name="email" type="email" autocomplete="email" maxlength="150" placeholder="you@example.com">
+                </div>
+                <div class="field">
+                  <label for="service">Desired service *</label>
+                  <select id="service" name="service" required>
+                    <option value="">Choose a service</option>
+                    <option>Natural Look</option>
+                    <option>Soft Glam</option>
+                    <option>Full Face Beat</option>
+                    <option>Eyebrows</option>
+                    <option>Eyelashes — single</option>
+                    <option>Eyelashes — strip</option>
+                    <option>Other / Not sure yet</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="date">Preferred date</label>
+                  <input id="date" name="date" type="date">
+                </div>
+                <div class="field field--full">
+                  <label for="occasion">Occasion (optional)</label>
+                  <input id="occasion" name="occasion" maxlength="120" placeholder="e.g. birthday, photoshoot, special event">
+                </div>
+                <div class="field field--full">
+                  <label for="details">Tell us a little more (optional)</label>
+                  <textarea id="details" name="details" maxlength="1000" placeholder="Describe your preferred look or any questions..."></textarea>
+                </div>
+              </div>
+              <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
+              <button class="btn btn--primary form-submit" type="submit">Prepare WhatsApp enquiry <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+              <p class="form-note">This opens WhatsApp with your message prepared. Review it and press Send in WhatsApp. The website does not store your form details.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" aria-label="The Nonty Experience home"><img src="assets/logo.png" alt="The Nonty Experience logo" width="190" height="55" loading="lazy"></a>
+          <p>Beauty is personal. Celebrate your individuality with The Nonty Experience.</p>
+        </div>
+        <div>
+          <h3>Explore</h3>
+          <div class="footer-links">
+            <a href="#about">Our story</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#experience">Your experience</a><a href="#faq">FAQs</a>
+          </div>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <div class="footer-links">
+            <a href="tel:+27813864024">0813864024</a>
+            <a href="mailto:nonty@re-el.co.za">nonty@re-el.co.za</a>
+            <a href="https://wa.me/27813864024" target="_blank" rel="noopener noreferrer">WhatsApp enquiries</a>
+          </div>
+        </div>
+        <div>
+          <h3>Our promise</h3>
+          <div class="footer-links">
+            <span>Individual expression</span>
+            <span>Creative artistry</span>
+            <span>Beauty with intention</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> The Nonty Experience. All rights reserved.</span>
+        <a href="mailto:nonty@re-el.co.za?subject=Website%20privacy%20enquiry">Privacy enquiries</a>
+      </div>
+    </div>
+  </footer>
+
+  <a class="whatsapp-float" href="https://wa.me/27813864024?text=Hi%20Nonty%2C%20I%20would%20like%20to%20enquire%20about%20a%20makeup%20booking." target="_blank" rel="noopener noreferrer" aria-label="Enquire with The Nonty Experience on WhatsApp">
+    <i data-lucide="message-circle" aria-hidden="true"></i><span>Enquire on WhatsApp</span>
+  </a>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Portfolio image viewer" hidden>
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close image viewer"><i data-lucide="x" aria-hidden="true"></i></button>
+      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const header = document.getElementById("siteHeader");
+      const menuToggle = document.getElementById("menuToggle");
+      const nav = document.getElementById("primaryNav");
+      const bookingForm = document.getElementById("bookingForm");
+      const formError = document.getElementById("formError");
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightboxImage");
+      const lightboxCaption = document.getElementById("lightboxCaption");
+      const lightboxClose = document.getElementById("lightboxClose");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let lastFocusedElement = null;
+
+      if (window.lucide) window.lucide.createIcons();
+
+      // Sticky header treatment
+      const updateHeader = () => header.classList.toggle("scrolled", window.scrollY > 12);
+      updateHeader();
+      window.addEventListener("scroll", updateHeader, { passive: true });
+
+      // Mobile navigation
+      function closeMenu() {
+        nav.classList.remove("is-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+        document.body.classList.remove("menu-open");
+        if (window.lucide) {
+          menuToggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
+          window.lucide.createIcons();
+        }
+      }
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+          closeMenu();
+        } else {
+          nav.classList.add("is-open");
+          menuToggle.setAttribute("aria-expanded", "true");
+          menuToggle.setAttribute("aria-label", "Close navigation menu");
+          document.body.classList.add("menu-open");
+          menuToggle.innerHTML = '<i data-lucide="x" aria-hidden="true"></i>';
+          if (window.lucide) window.lucide.createIcons();
+        }
+      });
+
+      nav.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+          closeMenu();
+          closeLightbox();
+        }
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 760) closeMenu();
+      });
+
+      // Scroll reveal, with a graceful fallback when IntersectionObserver is unavailable.
+      const revealItems = document.querySelectorAll("[data-reveal]");
+      if ("IntersectionObserver" in window && !reduceMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+        revealItems.forEach(item => revealObserver.observe(item));
+      } else {
+        revealItems.forEach(item => item.classList.add("is-visible"));
+      }
+
+      // Mark the current navigation section.
+      const sections = document.querySelectorAll("main section[id]");
+      if ("IntersectionObserver" in window) {
+        const sectionObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            nav.querySelectorAll('a[href^="#"]').forEach(link => {
+              if (link.getAttribute("href") === "#" + entry.target.id) {
+                link.setAttribute("aria-current", "location");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            });
+          });
+        }, { rootMargin: "-30% 0px -60% 0px" });
+        sections.forEach(section => sectionObserver.observe(section));
+      }
+
+      // FAQ accordion
+      document.querySelectorAll(".faq-question").forEach(button => {
+        button.addEventListener("click", () => {
+          const isExpanded = button.getAttribute("aria-expanded") === "true";
+          const answer = document.getElementById(button.getAttribute("aria-controls"));
+          button.setAttribute("aria-expanded", String(!isExpanded));
+          answer.hidden = isExpanded;
+        });
+      });
+
+      // Service links select the relevant option in the enquiry form.
+      document.querySelectorAll("[data-service]").forEach(link => {
+        link.addEventListener("click", () => {
+          const service = link.getAttribute("data-service");
+          const select = document.getElementById("service");
+          if (!service || !select) return;
+          const option = Array.from(select.options).find(item => item.text.trim() === service || item.value === service);
+          if (option) select.value = option.value;
+        });
+      });
+
+      // WhatsApp enquiry form: no data is stored on this static website.
+      bookingForm.addEventListener("submit", event => {
+        event.preventDefault();
+        formError.textContent = "";
+
+        if (!bookingForm.reportValidity()) return;
+
+        const data = new FormData(bookingForm);
+        const fullName = String(data.get("fullName") || "").trim();
+        const phone = String(data.get("phone") || "").trim();
+        const email = String(data.get("email") || "").trim();
+        const service = String(data.get("service") || "").trim();
+        const date = String(data.get("date") || "").trim();
+        const occasion = String(data.get("occasion") || "").trim();
+        const details = String(data.get("details") || "").trim();
+
+        if (!fullName || !phone || !service) {
+          formError.textContent = "Please complete your name, phone number, and desired service.";
+          return;
+        }
+
+        const lines = [
+          "Hi Nonty, I would like to enquire about a makeup booking.",
+          "",
+          "Name: " + fullName,
+          "My phone number: " + phone,
+          "Desired service: " + service
+        ];
+        if (email) lines.push("Email: " + email);
+        if (date) lines.push("Preferred date: " + date);
+        if (occasion) lines.push("Occasion: " + occasion);
+        if (details) lines.push("Additional details: " + details);
+        lines.push("", "Please let me know the current price and availability. Thank you.");
+
+        const url = "https://wa.me/27813864024?text=" + encodeURIComponent(lines.join("\n"));
+        const opened = window.open(url, "_blank", "noopener,noreferrer");
+        if (!opened) window.location.href = url;
+      });
+
+      // Portfolio lightbox
+      const portfolioButtons = Array.from(document.querySelectorAll(".portfolio-card"));
+      function openLightbox(button) {
+        lastFocusedElement = button;
+        lightboxImage.src = button.dataset.image;
+        lightboxImage.alt = button.querySelector("img")?.alt || "Portfolio photograph";
+        lightboxCaption.textContent = button.dataset.caption || "";
+        lightbox.hidden = false;
+        document.body.classList.add("modal-open");
+        lightboxClose.focus();
+      }
+      function closeLightbox() {
+        if (lightbox.hidden) return;
+        lightbox.hidden = true;
+        lightboxImage.src = "";
+        document.body.classList.remove("modal-open");
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+      portfolioButtons.forEach(button => button.addEventListener("click", () => openLightbox(button)));
+      lightboxClose.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", event => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      lightbox.addEventListener("keydown", event => {
+        if (event.key !== "Tab") return;
+        const focusable = [lightboxClose];
+        if (focusable.length === 1) {
+          event.preventDefault();
+          lightboxClose.focus();
+        }
+      });
+
+      // Do not allow a past date to be selected for a preferred booking date.
+      const dateInput = document.getElementById("date");
+      const today = new Date();
+      const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+      dateInput.min = localToday;
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
