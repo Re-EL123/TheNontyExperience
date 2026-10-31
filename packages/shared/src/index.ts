@@ -103,7 +103,7 @@ const unhex = (s: string) => Uint8Array.from(s.match(/../g) ?? [], (h) => parseI
 
 async function derive(password: string, salt: Uint8Array, iterations: number) {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
-  return crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations }, key, 256);
+  return crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: new Uint8Array(salt), iterations }, key, 256);
 }
 
 export async function hashPassword(password: string) {
