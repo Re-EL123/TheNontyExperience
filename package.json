@@ -1,0 +1,16 @@
+{
+  "name": "nonty-experience",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": { "node": ">=20.12" },
+  "scripts": {
+    "build:packages": "pnpm --filter @nonty/shared build && pnpm --filter @nonty/db build",
+    "build": "pnpm build:packages && pnpm --filter @nonty/admin build",
+    "dev": "pnpm build:packages && pnpm --parallel --filter @nonty/api --filter @nonty/admin dev",
+    "typecheck": "pnpm build:packages && pnpm -r typecheck",
+    "db:generate": "pnpm --filter @nonty/db generate",
+    "db:migrate": "pnpm --filter @nonty/db migrate",
+    "db:seed": "pnpm --filter @nonty/db seed",
+    "web": "pnpm dlx serve apps/web -l 3000"
+  }
+}
