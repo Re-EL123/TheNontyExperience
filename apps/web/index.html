@@ -886,10 +886,9 @@
   </div>
 
   <!-- ===== Public API =====
-       Point this at the deployed API (Vercel), including /api, e.g.
-       "https://nonty-api.vercel.app/api". While the placeholder below is left in
-       place the site stays fully static and enquiries go out over WhatsApp. -->
-  <script>window.NONTY_API_URL = "https://YOUR-PROJECT.vercel.app/api";</script>
+       Base URL of the deployed API (Vercel), including /api. This origin must
+       also be listed in the API's ALLOWED_ORIGINS or the browser blocks the call. -->
+  <script>window.NONTY_API_URL = "https://thenontyexperience.vercel.app/api";</script>
   <script src="assets/js/nonty-api.js"></script>
 
   <script>
