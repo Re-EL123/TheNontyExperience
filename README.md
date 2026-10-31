@@ -55,12 +55,16 @@ pnpm web                    # public site on :3000 (set NONTY_API_URL to http://
 
 ## 5. Connect the public site
 
-In `apps/web/index.html`, before `</body>`:
+The public site is already wired to the API. The only thing to set is the API base URL near the end of `apps/web/index.html`:
 ```html
 <script>window.NONTY_API_URL = "https://<project>.vercel.app/api";</script>
-<script src="assets/js/nonty-api.js" defer></script>
 ```
-Then bind the contact form (`NontyAPI.bindEnquiryForm(form, { onSuccess, onInvalid, onFallback })`, see the comments in `nonty-api.js` for the required field names), and optionally render prices/gallery from `NontyAPI.services()` / `NontyAPI.gallery()`. If the API is down, the form falls back to the WhatsApp link.
+Until you replace the `YOUR-PROJECT` placeholder the page keeps running standalone and enquiries go out over WhatsApp as before. Once set, the page:
+- renders services and prices from `GET /public/services` (everything you manage under **Services**),
+- renders the portfolio from `GET /public/gallery` (photos you tick **Show on website** in **Gallery**),
+- posts the contact form (with honeypot + validation) to `POST /public/enquiries`, falling back to the pre-filled WhatsApp message if the API is unreachable.
+
+Add the site's origin to the API's `ALLOWED_ORIGINS` or the browser will block these requests (CORS).
 
 ## Security notes
 - Admin session = signed, `HttpOnly`, `SameSite=Lax` cookie; admin and API share one origin; every state-changing request is origin-checked. 5 wrong passwords lock the account for 15 minutes.

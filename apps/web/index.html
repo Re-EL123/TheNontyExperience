@@ -321,6 +321,8 @@
     .form-submit { width: 100%; margin-top: 20px; }
     .form-note { margin: 12px 0 0; color: var(--muted); font-size: .75rem; }
     .form-error { min-height: 1.2em; margin: 8px 0 0; color: #a32636; font-size: .83rem; }
+    .form-error.is-success { color: #2f7d4f; }
+    .hp-field { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 
     .footer { padding: 58px 0 24px; color: #f8edf1; background: var(--ink); }
     .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr 1fr 1fr; gap: 36px; padding-bottom: 42px; }
@@ -603,7 +605,7 @@
           <p>Choose a look that feels like you. Enquire directly to confirm current pricing and availability.</p>
         </div>
 
-        <div class="services-grid">
+        <div class="services-grid" id="servicesGrid">
           <article class="service-card" data-reveal>
             <div class="service-photo"><img src="assets/natural.png" alt="Natural makeup inspiration" width="700" height="620" decoding="async"></div>
             <div class="service-content">
@@ -649,7 +651,7 @@
             </div>
           </article>
         </div>
-        <p class="service-note">*Prices are reproduced from the supplied brochure and must be confirmed before launch. The brochure lists eyelashes at R139 (single) or R79 (strip). Services and final prices are confirmed directly with the business.</p>
+        <p class="service-note" id="serviceNote">*Prices are reproduced from the supplied brochure and must be confirmed before launch. The brochure lists eyelashes at R139 (single) or R79 (strip). Services and final prices are confirmed directly with the business.</p>
       </div>
     </section>
 
@@ -662,7 +664,7 @@
           <p class="eyebrow">Make a statement</p>
           <h2>Your moment. Your glam.</h2>
           <p>Bring your vision to life with a look that celebrates your features and expresses your personal style. Enquire about a Full Face Beat and confirm the details for your occasion.</p>
-          <div class="feature-price"><strong>R179</strong><del>R210</del><small>Brochure offer · confirm availability</small></div>
+          <div class="feature-price"><strong id="featurePrice">R179</strong><del id="featureCompare">R210</del><small>Brochure offer · confirm availability</small></div>
           <a class="btn btn--light" href="#contact" data-service="Full Face Beat">Enquire about full glam <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
         </div>
       </div>
@@ -675,7 +677,7 @@
           <h2>Beauty in every detail.</h2>
           <p>A visual moodboard for your next look.</p>
         </div>
-        <div class="portfolio-grid">
+        <div class="portfolio-grid" id="portfolioGrid">
           <button class="portfolio-card" type="button" data-reveal data-image="assets/image1.jpg" data-caption="Beauty portrait" aria-label="View beauty portrait"><img src="assets/image1.jpg" alt="Beauty portrait inspiration" width="700" height="900" decoding="async"><span class="portfolio-label">Natural beauty</span></button>
           <button class="portfolio-card" type="button" data-reveal data-image="assets/image2.jpg" data-caption="Glamour inspiration" aria-label="View glamour inspiration"><img src="assets/image2.jpg" alt="Glamour portrait inspiration" width="700" height="500" decoding="async"><span class="portfolio-label">Soft glam</span></button>
           <button class="portfolio-card" type="button" data-reveal data-image="assets/image3.jpg" data-caption="Full glam inspiration" aria-label="View full glam inspiration"><img src="assets/image3.jpg" alt="Full glam portrait inspiration" width="700" height="500" decoding="async"><span class="portfolio-label">Full glam</span></button>
@@ -778,9 +780,13 @@
             <p class="form-intro">Fields marked with * are required.</p>
             <form id="bookingForm">
               <div class="form-grid">
+                <div class="hp-field" aria-hidden="true">
+                  <label for="website">Website</label>
+                  <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="field">
                   <label for="fullName">Full name *</label>
-                  <input id="fullName" name="fullName" autocomplete="name" required maxlength="100" placeholder="Your name">
+                  <input id="fullName" name="name" autocomplete="name" required maxlength="100" placeholder="Your name">
                 </div>
                 <div class="field">
                   <label for="phone">Phone number *</label>
@@ -805,7 +811,11 @@
                 </div>
                 <div class="field">
                   <label for="date">Preferred date</label>
-                  <input id="date" name="date" type="date">
+                  <input id="date" name="preferredDate" type="date">
+                </div>
+                <div class="field">
+                  <label for="time">Preferred time (optional)</label>
+                  <input id="time" name="preferredTime" type="time">
                 </div>
                 <div class="field field--full">
                   <label for="occasion">Occasion (optional)</label>
@@ -817,8 +827,8 @@
                 </div>
               </div>
               <p class="form-error" id="formError" role="alert" aria-live="polite"></p>
-              <button class="btn btn--primary form-submit" type="submit">Prepare WhatsApp enquiry <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
-              <p class="form-note">This opens WhatsApp with your message prepared. Review it and press Send in WhatsApp. The website does not store your form details.</p>
+              <button class="btn btn--primary form-submit" id="formSubmit" type="submit">Prepare WhatsApp enquiry <i data-lucide="arrow-up-right" aria-hidden="true"></i></button>
+              <p class="form-note" id="formNote">This opens WhatsApp with your message prepared. Review it and press Send in WhatsApp. The website does not store your form details.</p>
             </form>
           </div>
         </div>
@@ -874,6 +884,13 @@
       <div class="lightbox-caption" id="lightboxCaption"></div>
     </div>
   </div>
+
+  <!-- ===== Public API =====
+       Point this at the deployed API (Vercel), including /api, e.g.
+       "https://nonty-api.vercel.app/api". While the placeholder below is left in
+       place the site stays fully static and enquiries go out over WhatsApp. -->
+  <script>window.NONTY_API_URL = "https://YOUR-PROJECT.vercel.app/api";</script>
+  <script src="assets/js/nonty-api.js"></script>
 
   <script>
     (() => {
@@ -1022,8 +1039,6 @@
       });
 
       /* ===================== Scroll reveal (with auto-stagger) ===================== */
-      const revealItems = document.querySelectorAll("[data-reveal]");
-
       function autoStagger(selector, step, max) {
         document.querySelectorAll(selector).forEach(group => {
           const items = Array.from(group.querySelectorAll(":scope > [data-reveal]"));
@@ -1033,23 +1048,31 @@
           });
         });
       }
-      autoStagger(".services-grid", 90, 360);
-      autoStagger(".portfolio-grid", 90, 360);
-      autoStagger(".values-grid", 70, 280);
 
-      if ("IntersectionObserver" in window && !reduceMotion) {
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
-        revealItems.forEach(item => revealObserver.observe(item));
-      } else {
-        revealItems.forEach(item => item.classList.add("is-visible"));
+      const revealObserver = ("IntersectionObserver" in window && !reduceMotion)
+        ? new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" })
+        : null;
+
+      // Registers every [data-reveal] once; safe to call again after rendering API content.
+      function applyReveals() {
+        document.querySelectorAll("[data-reveal]").forEach(item => {
+          if (item.dataset.revealBound) return;
+          item.dataset.revealBound = "1";
+          if (revealObserver) revealObserver.observe(item);
+          else item.classList.add("is-visible");
+        });
+        autoStagger(".services-grid", 90, 360);
+        autoStagger(".portfolio-grid", 90, 360);
+        autoStagger(".values-grid", 70, 280);
       }
+      applyReveals();
 
       /* ===================== Active nav section tracking ===================== */
       const sections = document.querySelectorAll("main section[id]");
@@ -1115,57 +1138,101 @@
       }
 
       /* ===================== Service links select the relevant form option ===================== */
-      document.querySelectorAll("[data-service]").forEach(link => {
-        link.addEventListener("click", () => {
-          const service = link.getAttribute("data-service");
-          const select = document.getElementById("service");
-          if (!service || !select) return;
-          const option = Array.from(select.options).find(item => item.text.trim() === service || item.value === service);
-          if (option) select.value = option.value;
-        });
+      document.addEventListener("click", event => {
+        const link = event.target.closest("[data-service]");
+        if (!link) return;
+        const service = link.getAttribute("data-service");
+        const select = document.getElementById("service");
+        if (!service || !select) return;
+        const option = Array.from(select.options).find(item => item.value === service || item.text.trim() === service);
+        if (option) select.value = option.value;
       });
 
-      /* ===================== WhatsApp enquiry form: no data stored on this static website ===================== */
+      /* ===================== Enquiry form: API first, WhatsApp fallback ===================== */
+      const API_URL = window.NONTY_API_URL || "";
+      // Live mode needs a real URL (the placeholder means "not configured yet") and the client script.
+      const API_ENABLED = /^https?:\/\//.test(API_URL) && API_URL.indexOf("YOUR-PROJECT") === -1 && !!window.NontyAPI;
+
+      function enquiryPayload() {
+        const payload = {};
+        new FormData(bookingForm).forEach((value, key) => {
+          payload[key] = typeof value === "string" ? value.trim() : value;
+        });
+        return payload;
+      }
+
+      function whatsappEnquiry(p) {
+        const lines = [
+          "Hi Nonty, I would like to enquire about a makeup booking.",
+          "",
+          "Name: " + (p.name || ""),
+          "My phone number: " + (p.phone || ""),
+          "Desired service: " + (p.service || "")
+        ];
+        if (p.email) lines.push("Email: " + p.email);
+        if (p.preferredDate) lines.push("Preferred date: " + p.preferredDate);
+        if (p.preferredTime) lines.push("Preferred time: " + p.preferredTime);
+        if (p.occasion) lines.push("Occasion: " + p.occasion);
+        if (p.details) lines.push("Additional details: " + p.details);
+        lines.push("", "Please let me know the current price and availability. Thank you.");
+        return "https://wa.me/27813864024?text=" + encodeURIComponent(lines.join("\n"));
+      }
+
+      function openWhatsapp(url) {
+        const opened = window.open(url, "_blank", "noopener,noreferrer");
+        if (!opened) window.location.href = url;
+      }
+
       bookingForm.addEventListener("submit", event => {
         event.preventDefault();
         formError.textContent = "";
+        formError.classList.remove("is-success");
 
         if (!bookingForm.reportValidity()) return;
+        if (bookingForm.dataset.busy) return;
 
-        const data = new FormData(bookingForm);
-        const fullName = String(data.get("fullName") || "").trim();
-        const phone = String(data.get("phone") || "").trim();
-        const email = String(data.get("email") || "").trim();
-        const service = String(data.get("service") || "").trim();
-        const date = String(data.get("date") || "").trim();
-        const occasion = String(data.get("occasion") || "").trim();
-        const details = String(data.get("details") || "").trim();
-
-        if (!fullName || !phone || !service) {
+        const payload = enquiryPayload();
+        if (payload.website) return; // honeypot filled → quietly drop the bot
+        if (!payload.name || !payload.phone || !payload.service) {
           formError.textContent = "Please complete your name, phone number, and desired service.";
           return;
         }
 
-        const lines = [
-          "Hi Nonty, I would like to enquire about a makeup booking.",
-          "",
-          "Name: " + fullName,
-          "My phone number: " + phone,
-          "Desired service: " + service
-        ];
-        if (email) lines.push("Email: " + email);
-        if (date) lines.push("Preferred date: " + date);
-        if (occasion) lines.push("Occasion: " + occasion);
-        if (details) lines.push("Additional details: " + details);
-        lines.push("", "Please let me know the current price and availability. Thank you.");
+        // No API configured: keep the original WhatsApp-only journey.
+        if (!API_ENABLED) {
+          openWhatsapp(whatsappEnquiry(payload));
+          return;
+        }
 
-        const url = "https://wa.me/27813864024?text=" + encodeURIComponent(lines.join("\n"));
-        const opened = window.open(url, "_blank", "noopener,noreferrer");
-        if (!opened) window.location.href = url;
+        const button = document.getElementById("formSubmit");
+        bookingForm.dataset.busy = "1";
+        if (button) button.setAttribute("aria-busy", "true");
+
+        window.NontyAPI.submitEnquiry(payload)
+          .then(() => {
+            bookingForm.reset();
+            formError.classList.add("is-success");
+            formError.textContent = "Thank you! Your enquiry has reached The Nonty Experience, who will be in touch shortly.";
+          })
+          .catch(err => {
+            if (err && err.status === 400) {
+              const fields = err.fields && Object.keys(err.fields).map(f => f.replace(/([A-Z])/g, " $1").toLowerCase());
+              formError.textContent = fields && fields.length
+                ? "Please check your " + fields.join(", ") + "."
+                : (err.message || "Please check your details and try again.");
+              return;
+            }
+            // The booking system is unreachable – fall back to WhatsApp so the enquiry is not lost.
+            formError.textContent = "The booking system is unavailable, so WhatsApp has been opened with your message.";
+            openWhatsapp(whatsappEnquiry(payload));
+          })
+          .finally(() => {
+            delete bookingForm.dataset.busy;
+            if (button) button.removeAttribute("aria-busy");
+          });
       });
 
       /* ===================== Portfolio lightbox (animated) ===================== */
-      const portfolioButtons = Array.from(document.querySelectorAll(".portfolio-card"));
       function openLightbox(button) {
         lastFocusedElement = button;
         lightboxImage.src = button.dataset.image;
@@ -1190,7 +1257,14 @@
         document.body.classList.remove("modal-open");
         if (lastFocusedElement) lastFocusedElement.focus();
       }
-      portfolioButtons.forEach(button => button.addEventListener("click", () => openLightbox(button)));
+      // Delegated so photos rendered later from the API open in the lightbox too.
+      const portfolioGrid = document.getElementById("portfolioGrid");
+      if (portfolioGrid) {
+        portfolioGrid.addEventListener("click", event => {
+          const card = event.target.closest(".portfolio-card");
+          if (card) openLightbox(card);
+        });
+      }
       lightboxClose.addEventListener("click", closeLightbox);
       lightbox.addEventListener("click", event => {
         if (event.target === lightbox) closeLightbox();
@@ -1211,6 +1285,112 @@
       dateInput.min = localToday;
 
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      /* ===================== Live content from the API (services + gallery) ===================== */
+      // Images for the seeded services; unknown services fall back to a neutral brand image.
+      const SERVICE_IMAGES = {
+        "natural-look": "assets/natural.png",
+        "soft-glam": "assets/soft.png",
+        "full-face-beat": "assets/full .png",
+        "eyebrows": "assets/eyebrows.png",
+        "eyelashes-single": "assets/eyelashes.png",
+        "eyelashes-strip": "assets/eyelashes.png"
+      };
+      const CATEGORY_LABELS = {
+        natural: "Natural", soft_glam: "Soft glam", full_glam: "Full glam",
+        before_after: "Before & after", brand: "Brand", other: "Look"
+      };
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, ch => (
+          { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+        ));
+      }
+
+      function formatRand(cents) {
+        if (cents == null) return "";
+        const r = cents / 100;
+        return "R" + (Number.isInteger(r) ? r : r.toFixed(2));
+      }
+
+      function renderServices(items) {
+        if (!Array.isArray(items) || items.length === 0) return;
+        const grid = document.getElementById("servicesGrid");
+        const select = document.getElementById("service");
+
+        if (grid) {
+          grid.innerHTML = items.map(s => {
+            const img = SERVICE_IMAGES[s.slug] || "assets/hero.png";
+            const priceText = s.priceCents != null
+              ? (s.priceNote ? s.priceNote + " " : "") + formatRand(s.priceCents) + "*"
+              : (s.priceNote || "");
+            const was = s.compareAtCents != null ? "<del>" + formatRand(s.compareAtCents) + "</del> " : "";
+            const price = priceText ? '<span class="price">' + was + escapeHtml(priceText) + "</span>" : "";
+            return '<article class="service-card" data-reveal>' +
+              '<div class="service-photo"><img src="' + escapeHtml(img) + '" alt="' + escapeHtml(s.name) + '" loading="lazy" decoding="async"></div>' +
+              '<div class="service-content">' +
+                '<div class="service-top"><h3>' + escapeHtml(s.name) + "</h3>" + price + "</div>" +
+                "<p>" + escapeHtml(s.description || "") + "</p>" +
+                '<a class="text-link service-enquiry" href="#contact" data-service="' + escapeHtml(s.slug) + '">Enquire about this look <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>' +
+              "</div></article>";
+          }).join("");
+        }
+
+        if (select) {
+          const current = select.value;
+          select.innerHTML = '<option value="">Choose a service</option>' +
+            items.map(s => '<option value="' + escapeHtml(s.slug) + '">' + escapeHtml(s.name) + "</option>").join("") +
+            '<option value="Other / Not sure yet">Other / Not sure yet</option>';
+          if (current) select.value = current;
+        }
+
+        // Keep the featured Full Face Beat promotion in step with the live service list.
+        const featured = items.find(s => s.slug === "full-face-beat");
+        if (featured && featured.priceCents != null) {
+          const strong = document.getElementById("featurePrice");
+          const del = document.getElementById("featureCompare");
+          if (strong) strong.textContent = formatRand(featured.priceCents);
+          if (del) {
+            del.hidden = featured.compareAtCents == null;
+            if (featured.compareAtCents != null) del.textContent = formatRand(featured.compareAtCents);
+          }
+        }
+
+        // Prices now come from the admin, so the brochure disclaimer no longer applies.
+        const note = document.getElementById("serviceNote");
+        if (note) note.textContent = "*Prices are managed by The Nonty Experience and confirmed directly at the time of booking.";
+      }
+
+      function renderGallery(items) {
+        const grid = document.getElementById("portfolioGrid");
+        if (!grid || !Array.isArray(items) || items.length === 0) return;
+        grid.innerHTML = items.map(m => {
+          const caption = m.caption || m.alt || "";
+          const label = CATEGORY_LABELS[m.category] || "Look";
+          const size = (m.width && m.height) ? ' width="' + m.width + '" height="' + m.height + '"' : "";
+          return '<button class="portfolio-card" type="button" data-reveal data-image="' + escapeHtml(m.url) + '" data-caption="' + escapeHtml(caption) + '" aria-label="View ' + escapeHtml(caption || label) + '">' +
+            '<img src="' + escapeHtml(m.url) + '" alt="' + escapeHtml(m.alt || caption) + '"' + size + ' loading="lazy" decoding="async">' +
+            '<span class="portfolio-label">' + escapeHtml(label) + "</span></button>";
+        }).join("");
+      }
+
+      if (API_ENABLED) {
+        // The form now posts to the API, so update the copy that promised a WhatsApp-only flow.
+        const submitButton = document.getElementById("formSubmit");
+        if (submitButton) submitButton.innerHTML = 'Send enquiry <i data-lucide="arrow-up-right" aria-hidden="true"></i>';
+        const formNote = document.getElementById("formNote");
+        if (formNote) formNote.textContent = "Your details are sent securely to The Nonty Experience. If the booking system is unavailable, WhatsApp opens with your message instead.";
+        if (window.lucide) window.lucide.createIcons();
+
+        Promise.allSettled([window.NontyAPI.services(), window.NontyAPI.gallery()]).then(results => {
+          const services = results[0];
+          const gallery = results[1];
+          if (services.status === "fulfilled") renderServices(services.value && services.value.items);
+          if (gallery.status === "fulfilled") renderGallery(gallery.value && gallery.value.items);
+          if (window.lucide) window.lucide.createIcons();
+          applyReveals();
+        });
+      }
     })();
   </script>
 </body>
